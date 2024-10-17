@@ -4,6 +4,7 @@
 	<div class="space-y-5">
 		<h1 class="h1">Let's get cracking bones!</h1>
 		<p>Start by asking Samir for help</p>
+		<img>https://tenor.com/search/dancing-cow-gifs<img>
 		<ul>
 			<li><code class="code">/src/routes/+layout.svelte</code> - barebones layout</li>
 			<li><code class="code">/src/app.postcss</code> - app wide css</li>
