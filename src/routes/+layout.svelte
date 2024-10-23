@@ -15,11 +15,16 @@
 	hljs.registerLanguage('javascript', javascript);
 	hljs.registerLanguage('typescript', typescript);
 	storeHighlightJs.set(hljs);
-
+	import { base } from '$app/paths';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
-
+<nav>
+	<a href="{base}/">Home</a>
+	<a href="{base}/photoapp">PhotoApp</a>
+	<a href="{base}/about">About</a>
+	
+</nav>
 <slot />
