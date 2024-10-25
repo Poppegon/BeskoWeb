@@ -36,8 +36,7 @@
         margin-bottom: 20px;
 	}
 	.citat {
-		flex: 1;
-        transition: transform 100ms ease-in-out normal;
+        transition: transform 300ms ease-in-out normal;
         order:1
 	}
 	.citat:hover { transform: scale(1.3); }
