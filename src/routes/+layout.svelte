@@ -21,10 +21,20 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
+
+<style>
+	.links {
+		display: flex;
+		align-items: center;
+	}
+</style>
+
 <nav>
-	<a href="{base}/">Home</a>
-	<a href="{base}/photoapp">PhotoApp</a>
-	<a href="{base}/about">About</a>
-	
+	<div class="links">
+		<a href="{base}/">Home</a>
+		<a href="{base}/photoapp">PhotoApp</a>
+		<a href="{base}/about">About</a>
+		<a href="{base}/register">Register</a>
+	</div>
 </nav>
 <slot />

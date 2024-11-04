@@ -1,0 +1,13 @@
+<main>
+
+</main>
+
+<style>
+ main{
+        background-image: url("http://localhost:5173/photos/Registerer.png");
+        background-size: cover;
+        width: 100%;
+        height: 100%;
+        padding: 5%;
+    }
+</style>
