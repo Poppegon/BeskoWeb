@@ -12,7 +12,7 @@
         <div class ="image-wrapper"><img src="photos/Josef.png" alt="skibi"></div>
         <div class ="image-wrapper"><img src="photos/Samir.jpg" alt="skibi"></div>
         <div class ="image-wrapper"><img src="photos/Sus.jpg" alt="skibi"></div>
-        <div class ="image-wrapper"><img src="photos\Registerer.png" alt="skibi"></div>
+        <div class ="image-wrapper"><img src="photos/Registerer.png" alt="skibi"></div>
     </div>
 </main>
 
