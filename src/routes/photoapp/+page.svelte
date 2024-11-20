@@ -22,7 +22,8 @@
         font-size: 70px;
         font-family:'';
         color: grey;
-        margin-bottom: 20px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
     .photos {
         display: flex;
@@ -30,7 +31,6 @@
         width:100vw;
         align-items: center;
         justify-content: center;
-        background: burlywood;
     }
     .image-wrapper {
         transition:flex 150ms ease-in-out normal;
@@ -40,7 +40,7 @@
         width: 100%;
         padding: 3px;
         border-radius: 20px;
-        border: 2px solid white;
+        border: 2px solid #af734e;
         box-shadow: 4px 8px 10px rgba(0,0,0,0.2);
         max-height: 400px;
         min-height: 399px;

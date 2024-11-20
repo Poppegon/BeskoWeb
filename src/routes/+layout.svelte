@@ -25,7 +25,13 @@
 <style>
 	.links {
 		display: flex;
-		align-items: center;
+		justify-content: space-between;
+		padding: 5px 30px 5px 30px;
+	}
+
+	.loginregister {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>
 
@@ -34,7 +40,10 @@
 		<a href="{base}/">Home</a>
 		<a href="{base}/photoapp">PhotoApp</a>
 		<a href="{base}/about">About</a>
-		<a href="{base}/register">Register</a>
+		<div class="loginregister">
+			<a href="{base}/register" style="padding-right: 20px;">Register</a>
+			<a href="{base}/login">Login</a>
+		</div>
 	</div>
 </nav>
 <slot />
