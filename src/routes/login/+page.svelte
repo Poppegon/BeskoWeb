@@ -46,7 +46,7 @@
             <label for="password">Lösenord:</label>
             <input type="password" id="password" class="smallbox" minlength=1 bind:value={password}>
 
-            <input type="submit" id="login" value="Logga in" class="smallbox">
+            <input type="submit" id="login" value="Logga in">
         </form>
         
         <p>Har du inget konto? <a href="/register" style="font-style: oblique;">skapa ett</a></p>

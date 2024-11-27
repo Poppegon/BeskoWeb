@@ -39,6 +39,7 @@
 	<div class="links">
 		<a href="{base}/">Home</a>
 		<a href="{base}/photoapp">PhotoApp</a>
+		<a href="{base}/shoppinglist">Shopping List</a>
 		<a href="{base}/about">About</a>
 		<div class="loginregister">
 			<a href="{base}/register" style="padding-right: 20px;">Register</a>
