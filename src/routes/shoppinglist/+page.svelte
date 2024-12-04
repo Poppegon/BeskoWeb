@@ -132,6 +132,8 @@
         list-style: circle;
         list-style-position: inside;
         padding-left: 20px;
+
+        transition: fly;
     }
 
     .list_item {

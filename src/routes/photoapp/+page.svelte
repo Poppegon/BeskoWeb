@@ -28,7 +28,7 @@
     .photos {
         display: flex;
         flex-wrap: wrap;
-        width:100vw;
+        width: 100vw;
         align-items: center;
         justify-content: center;
     }
