@@ -22,6 +22,8 @@
 
     let bg = "photos/memorybakgrund.png"
 
+    let restartButton = "photos/restartButton.png"
+
     let cards = [];
     let flippedCards = [];
     let amountOfCards = 12
@@ -54,6 +56,9 @@
 
     function createCardsList()
     {
+        console.log("cards created")
+        cards = [];
+        
         for (let i = 0; i < images.length; i++)
         {
             cards.push({id : i, flipped : false, complete : false, image : images[i]})
@@ -62,7 +67,57 @@
 
         shuffle(cards)
         cards = cards
-        console.log(cards)
+    }
+
+    function gameOver()
+    {
+        if (bluePoints > redPoints)
+        {
+            alert("BLÅ VANN!")
+        }
+        else if (redPoints > bluePoints)
+        {
+            alert("RÖD VANN!")
+        }
+        else
+        {
+            alert("OAVGJORT!")
+        }
+    }
+
+    function restartGame()
+    {
+        bluePoints = 0
+        redPoints = 0
+        blueTurn = true
+        createCardsList()
+    }
+
+    function resetCards() {
+        setTimeout(() => {
+            cards.forEach((card) =>
+            {
+                card.flipped = card.complete
+                console.log("cards reset")
+            });
+            flippedCards = [];
+            cards = cards
+
+            let completeCards = 0
+
+            cards.forEach((card) =>
+            {
+                if (card.complete === true)
+                {
+                    completeCards++
+                }
+            });
+
+            if (completeCards === cards.length)
+        {
+            gameOver()
+        }
+        }, 1000);
     }
 
     function flipCard(card)
@@ -71,13 +126,14 @@
         {
             card.flipped = true
             flippedCards.push(card)
-        }
+            cards = cards
+        
 
         if (flippedCards.length === 2)
-        {
+            {
                 let firstFlip = flippedCards[0]
                 
-                if(card.id === firstFlip.id)
+                if (card.id === firstFlip.id)
                 {
                     firstFlip.complete = true
                     card.complete = true
@@ -86,13 +142,13 @@
                     if (blueTurn)
                     {
                         bluePoints++
-                        console.log("POINT AWARDED TO BLUE")
+                        console.log("POINT AWARDED TO BLUE, GO AGAIN")
                     }
                     
                     else
                     {
                         redPoints++
-                        console.log("POINT AWARDED TO RED")
+                        console.log("POINT AWARDED TO RED, GO AGAIN")
                     }
                 }
                 
@@ -104,8 +160,9 @@
                 }
                 
                 cards = cards
-                /*resetCards()*/
+                resetCards()
             }
+        }
     }
 
 </script>
@@ -117,13 +174,15 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div class="card" class:flipped= { card.flipped } on:click={()=>flipCard(card)}>
-            <h1>
-                <div class ="front"><img src="{ images[card.id] }" alt="{ imagesAlt[card.id] }" class="image"></div>
-                <div class="back"><img src="{ bg }" alt="hidden card" class="image"></div>
-            </h1>
+                <img class ="front" src="{ card.image }" alt="{ imagesAlt[card.id] }">
+                <img class="back" src="{ bg }" alt="hidden card">
         </div>
     { /each }
 </main>
+
+<div class="restartContainer">
+    <img class="restart" src="{ restartButton }" on:click={()=>restartGame()}>
+</div>
 
 <aside class="blue">
     <p>
@@ -143,9 +202,8 @@
         justify-self: center;
         margin-top: 20px;
         display: grid;
-        grid-template-columns: repeat(4, 100px);
-        grid-template-rows: repeat(3, 100px);
         grid-gap: 10px;
+        box-shadow: 4px 8px 10px rgba(0,0,0,0.2);
     }
 
     .card {
@@ -156,16 +214,18 @@
         position: relative;
     
         transform-style: preserve-3d;
-        transition: transform 0.5s;
+        transition: transform 0.3s;
         cursor: pointer;
     }
 
-    .image {
-        height: 100px;
-        width: 100px;
-        position: relative;
+    .card:not(.flipped):hover { transform: scale(1.1); }
 
-        /* Även de förstorade bilderna ska vara krispiga*/
+    img {
+        height: 100px;
+        position: absolute;
+        backface-visibility: hidden;
+
+        /* Även de förstorade bilderna ska vara krispiga hittade inte tillbaka till källan */
         image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
         image-rendering: -moz-crisp-edges;          /* Firefox                        */
         image-rendering: -o-crisp-edges;            /* Opera                          */
@@ -176,12 +236,12 @@
     }
 
     .front {
-        position: absolute;
+        width: 100px;
         transform: rotateY(180deg);
     }
 
     .back {
-        backface-visibility: hidden;
+        width: 100px;
     }
 
     .turn {
@@ -192,6 +252,22 @@
     .flipped {
         transform: rotateY(180deg);
     }
+
+    .restartContainer {
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
+    .restart {
+        width: 200px;
+        cursor: pointer;
+
+        box-shadow: 4px 8px 10px rgba(0,0,0,0.2);
+    }
+
+    .restart:active { transform: scale(0.9); }
 
     aside{
         width: 100px;
@@ -213,5 +289,20 @@
     p{
         font-size: 30px;
     }
+
+    
+    @media (min-height: 500px){
+        main{
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(3, 100px);
+        }
+    }
+    @media (max-height: 500px){
+        main{
+            grid-template-columns: repeat(6, 100px);
+            grid-template-rows: repeat(2, 100px);
+        }
+    }
+          
                           
 </style>
