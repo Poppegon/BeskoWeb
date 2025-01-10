@@ -33,6 +33,14 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
+	a {
+		padding: 4px;
+		border-width: 2px;
+		border-radius: 14px;
+		border-color: #ff0043;
+		background-color: white;
+	}
 </style>
 
 <nav>
@@ -40,6 +48,9 @@
 		<a href="{base}/">Home</a>
 		<a href="{base}/photoapp">PhotoApp</a>
 		<a href="{base}/shoppinglist">Shopping List</a>
+		<a href="{base}/memory">Play Memory</a>
+		<a href="{base}/chat">ChatBot</a>
+		<a href="{base}/search">Search for Pokémon</a>
 		<a href="{base}/about">About</a>
 		<div class="loginregister">
 			<a href="{base}/register" style="padding-right: 20px;">Register</a>

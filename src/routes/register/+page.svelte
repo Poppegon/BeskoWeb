@@ -1,6 +1,6 @@
 <script>
     let ThemeColor = "red"
-    let colors = [{namn: "Blå", value: "blue"}, {namn: "Röd", value: "red"}, {namn: "Grön", value: "=green"}]
+    let colors = [{namn: "Blå", value: "blue"}, {namn: "Röd", value: "red"}, {namn: "Grön", value: "green"}]
 
     import {users_store} from "$lib/user";
     
@@ -23,7 +23,7 @@
             user_list = JSON.parse($users_store);
         }});
 
-    function handleSubmit() {        
+    function handleSubmit() {
         let new_user = {last_name: last_name, first_name: first_name, age: age, username: username, email: email, color: color, animal: animal, password: password};
 
         let username_taken = user_list.filter(u => new_user.username == u.username);
@@ -88,7 +88,6 @@
             <p>Har du redan ett konto?
                 <a href="/login" style="font-style: oblique;">logga in</a>
             </p>
-            
         </form>
     </div>
 </main>
