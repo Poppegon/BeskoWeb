@@ -1,14 +1,37 @@
+<script>
+    import { goto } from "$app/navigation";
+    let search = ""
+</script>
+
 <div class="backdrop">
 
 </div>
 
 <main class="main">
-    <slot>
 
-    </slot>
+    <div class="navBar">
+        <form on:submit|preventDefault={()=> goto('/search/'+search)}>
+            <input type="text" placeholder="Sök upp en annan pokemon" class="searchBar" bind:value={search}/>
+        </form>
+    </div>
+
+    <slot></slot>
 </main>
 
 <style>
+    .navBar {
+        display: flex;
+        width: 100%;
+    }
+
+    .searchBar {
+        border-width: 2px;
+        border-radius: 5px;
+        background-color: ghostwhite;
+        width: 250px;
+        margin: 10px;
+    }
+
     .main {
         size: 80vw 100vh;
         background-color: rgba(255, 255, 255, 0.8);
