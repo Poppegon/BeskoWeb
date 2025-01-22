@@ -1,4 +1,5 @@
 <script>
+	import { base } from '$app/paths';
     let ThemeColor = "red"
     let colors = [{namn: "Blå", value: "blue"}, {namn: "Röd", value: "red"}, {namn: "Grön", value: "green"}]
 
