@@ -1,5 +1,6 @@
 <script>
     import { goto } from "$app/navigation";
+    import { base } from '$app/paths';
     let search = ""
 
     function clearSearch() //hitta ett sätt att tömma search när man söker
