@@ -1,6 +1,11 @@
 <script>
     import { goto } from "$app/navigation";
     let search = ""
+
+    function clearSearch() //hitta ett sätt att tömma search när man söker
+    {
+        search = ""
+    }
 </script>
 
 <div class="backdrop">
@@ -10,9 +15,15 @@
 <main class="main">
 
     <div class="navBar">
-        <form on:submit|preventDefault={()=> goto('/search/'+search)}>
+
+
+        <form on:submit|preventDefault={()=> goto({base}+'/search/'+search)}>
             <input type="text" placeholder="Sök upp en annan pokemon" class="searchBar" bind:value={search}/>
         </form>
+
+        <div class="button">
+            <h1>Sök</h1>
+        </div>
     </div>
 
     <slot></slot>
@@ -21,6 +32,7 @@
 <style>
     .navBar {
         display: flex;
+        flex-direction: row;
         width: 100%;
     }
 
@@ -28,8 +40,16 @@
         border-width: 2px;
         border-radius: 5px;
         background-color: ghostwhite;
-        width: 250px;
+        width: 80vw;
         margin: 10px;
+    }
+
+    .button {
+        height: 43.2px;
+        display: flex;
+        justify-content: center;
+        margin-top: 17px;
+        font-size: 30px;
     }
 
     .main {

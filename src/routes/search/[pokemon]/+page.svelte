@@ -34,19 +34,40 @@
         return param * 0.1
     }
 
-    function makeTwoDecimals(param)
+    function makeTwoDecimals(string) // för att lösa att det ibland blir tex: 12.0000000000001 kg
     {
-        let i = 1
-        while (i <= param.length())
+        let countDown = 3
+        let result = ""
+
+        for i, char in enumerate(string):
         {
-            i += 1
+            if (countDown < 3 && countDown > 0)
+            {
+                countDown -= 1
+            }
+
+            if (char === ".")
+            {
+                countDown = 2
+            }
+            result += char
+
+            if (countDown === 0)
+            {
+                return result
+            }
         }
+    }
+
+    function changeSprite(imgUrl)
+    {
+        document.getElementById("pokeImg").src = imgUrl;
     }
 </script>
 
 
 { #await data }
-<p>.. waiting</p>
+    <p>.. waiting</p>
 { :then pokemon }
 
 <h1>{ capitalFirstLetter(pokemon.response.name) }</h1>
@@ -55,13 +76,24 @@
     <div class="statistics">
 
         <div class="sideContainer">
-            <img class="pokeImg" src={ pokemon.response.sprites.front_default } alt="default front of cute pokemon" style="margin-bottom: 10px;">
+            <img class="pokeImg" id="pokeImg" src={ pokemon.response.sprites.front_default } alt="default front of cute pokemon" style="margin-bottom: 10px;">
         
+            <div class="gallery">
+                { #each Object.entries(pokemon.response.sprites) as sprite }
+                    { #if typeof sprite[1] == "string" }
+                        <!-- svelte-ignore missing-declaration -->
+                        <!-- svelte-ignore a11y-click-events-have-key-events -->
+                        <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+                        <img class="imageWrapper" src="{ sprite[1] }" alt="{ sprite[0] }" on:click={ changeSprite(sprite[1]) }>
+                    { /if }
+                { /each }
+            </div>
+
             <div class="infobox">
-                <h2>Weight: { makeWeightKgsOrHeightMeters(pokemon.response.weight) } kg</h2>
+                <h2>Weight: { makeTwoDecimals(makeWeightKgsOrHeightMeters(pokemon.response.weight)) } kg</h2>
 
             </div><div class="infobox">
-                <h2>Height: { makeWeightKgsOrHeightMeters(pokemon.response.height) } m  </h2>
+                <h2>Height: { makeTwoDecimals(makeWeightKgsOrHeightMeters(pokemon.response.height)) } m  </h2>
 
             </div><div class="infobox">
                 <h2>ID: #{ pokemon.response.id }</h2>
@@ -106,6 +138,14 @@
         margin-right: 10%;
         margin-left: 10%;
     }
+
+    .gallery {
+        display: flex;
+        flex-direction: row;
+        overflow: scroll;
+    }
+
+    .imageWrapper:active { transform: scale(0.9); }
 
     .statistics {
         display: grid;

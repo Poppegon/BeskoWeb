@@ -144,21 +144,18 @@
                         bluePoints++
                         console.log("POINT AWARDED TO BLUE, GO AGAIN")
                     }
-                    
                     else
                     {
                         redPoints++
                         console.log("POINT AWARDED TO RED, GO AGAIN")
                     }
                 }
-                
                 else
                 {
                     console.log("NO MATCH => NO POINT")
                     blueTurn = !blueTurn;
                     console.log("TURNS CHANGED")
                 }
-                
                 cards = cards
                 resetCards()
             }
@@ -293,7 +290,6 @@
         font-size: 30px;
     }
 
-    
     @media (min-height: 500px){
         main{
             grid-template-columns: repeat(4, 100px);
@@ -306,6 +302,4 @@
             grid-template-rows: repeat(2, 100px);
         }
     }
-          
-                          
 </style>
