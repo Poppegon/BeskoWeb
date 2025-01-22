@@ -49,7 +49,7 @@
             <input type="submit" id="login" value="Logga in">
         </form>
         
-        <p>Har du inget konto? <a href="{base}+/register" style="font-style: oblique;">skapa ett</a></p>
+        <p>Har du inget konto? <a href="{base}/register" style="font-style: oblique;">skapa ett</a></p>
     
     </div>
 </main>
