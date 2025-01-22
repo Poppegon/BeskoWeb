@@ -1,1 +1,0 @@
-import{w as t}from"./index.miOlO_99.js";const e=(window==null?void 0:window.localStorage.getItem("users"))??"",o=(window==null?void 0:window.localStorage.getItem("chats"))??"",a=t(e),r=t(o);a.subscribe(s=>{window==null||window.localStorage.setItem("users",s)}),r.subscribe(s=>{window==null||window.localStorage.setItem("chats",s)});export{r as c,a as u};

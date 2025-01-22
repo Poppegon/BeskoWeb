@@ -87,7 +87,7 @@
             <input type="submit" id="register" value="Registrera" class="smallbox">
 
             <p>Har du redan ett konto?
-                <a href="{base}+/login" style="font-style: oblique;">logga in</a>
+                <a href="{base}/login" style="font-style: oblique;">logga in</a>
             </p>
         </form>
     </div>
