@@ -39,7 +39,7 @@
         let countDown = 3
         let result = ""
 
-        for i, char in enumerate(string):
+        for (char in string)
         {
             if (countDown < 3 && countDown > 0)
             {
