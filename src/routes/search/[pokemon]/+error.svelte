@@ -1,5 +1,6 @@
 <script>
   import { page } from "$app/stores";
+  import {base} from "$app/paths"
 </script>
 
 <section>
@@ -7,7 +8,7 @@
   <h1>{ "You searched for: " + $page.params.pokemon + "... It doesn´t exist..." }</h1>
   <hr />
   <h2>{ $page.status } { $page.error.message }</h2>
-  <a href="/search" class="link">Search for another Pokémon here</a>
+  <a href="{base}/search" class="link">Search for another Pokémon here</a>
 </section>
 
 <style>

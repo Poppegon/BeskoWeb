@@ -18,7 +18,7 @@
     <div class="navBar">
 
 
-        <form on:submit|preventDefault={()=> goto({base}+'/search/'+search)}>
+        <form on:submit|preventDefault={()=> goto(base + '/search/'+search)}>
             <input type="text" placeholder="Sök upp en annan pokemon" class="searchBar" bind:value={search}/>
         </form>
 
