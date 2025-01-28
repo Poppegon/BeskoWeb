@@ -41,8 +41,6 @@
 		border-color: #ff0043;
 		background-color: white;
 	}
-
-	:global()
 </style>
 
 <nav>
