@@ -26,7 +26,6 @@
     let goalWidth = 200
     let goalHeight = 100
     let score = 0
-    let goalImg = "HOOP2.jpg"
 
     // Från SuperNovas metod för att hämta muspekarpositionen
     let mouseX = 0;
@@ -311,7 +310,7 @@ function getMouseY() {
 
         <button on:click={()=>register()} class="registerButton">Register</button>
 
-        <img class="goalArea" style="width: {goalWidth}px; height: {goalHeight}px; top: {goalPosition.y}px; left: {goalPosition.x}px;" src="{goalImg}" alt="nope">
+        <div class="goalArea" style="width: {goalWidth}px; height: {goalHeight}px; top: {goalPosition.y}px; left: {goalPosition.x}px;"></div>
         <div id="floor" style="top: {floorHeight}px;"></div>
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
