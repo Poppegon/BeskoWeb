@@ -1,15 +1,67 @@
 <script>
+	import { onMount } from "svelte";
+    import { base } from "$app/paths";
+
     let username = ""
     let password = ""
     let writingUsername = true
 
-    let originalLetters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+    let originalLetters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÅåÄäÖö"
     let letters = originalLetters
     let currentIndex = 0
     let currentLetter = "ö"
 
     let currentNumber = 0
     let ageDetermined = false
+
+    let ballPosition = {x : 100, y : 0}
+    let lastBallPosition = ballPosition
+    let ballVelocity = {x : 0, y : 0}
+    let gravity = 5
+    let ballGrabbed = false
+    let frictionMultiplier = 0.95
+    let floorHeight = 800
+
+    let goalPosition = {x : 900, y : 500}
+    let goalWidth = 200
+    let goalHeight = 100
+    let score = 0
+    let goalImg = "HOOP2.jpg"
+
+    // Från SuperNovas metod för att hämta muspekarpositionen
+    let mouseX = 0;
+    let mouseY = 0;
+    
+    onMount(()=>{
+        setInterval(nextNumber, 20);
+        
+        // Från SuperNovas metod för att hämta muspekarpositionen
+        document.addEventListener('mousemove', onMouseUpdate, false);
+        document.addEventListener('mouseenter', onMouseUpdate, false);
+
+        initiateBall()
+        setInterval(addBallGravity, 20);
+        setInterval(checkForGoal, 40)
+        setInterval(physicsProcess, 20);
+    })
+
+
+// @ts-ignore
+    function onMouseUpdate(e) {
+        mouseX = e.pageX;
+        mouseY = e.pageY;
+        //console.log("Mouse: " + mouseX, mouseY);
+        //console.log("Ball: " + ballPosition.x, ballPosition.y)
+    }
+
+/*
+function getMouseX() {
+  return x;
+}
+
+function getMouseY() {
+  return y;
+}*/
 
     // @ts-ignore
     function switchMode(newMode)
@@ -140,21 +192,34 @@
     {
         let message = ""
 
-        if (username !== "" && password !== "" && ageDetermined)
+        if (username.length > 3 && password.length > 5 && ageDetermined && score > 0)
         {
+            if (currentNumber > 100)
+            {
+                alert("Are you really that old? Try again.")
+                return
+            }
             alert("Registered!!!")
             return
-
         }
         
         if (username === "")
         {
             message += "Enter your username, please. "
         }
+        else if (username.length < 3)
+        {
+            alert("User name must be at least three characters long.")
+            return
+        }
         
         if (password === "")
         {
             message += "Enter your password, please. "
+        } else if (password.length < 5)
+        {
+            alert("Password must be at least five characters long.")
+            return
         }
 
         if (!ageDetermined)
@@ -162,17 +227,95 @@
             message += "How old are you?"
         }
 
-        alert(message)
+        if (score < 0)
+        {
+            alert("failed")
+        }
+
+        if (message) alert(message)
     }
 
-    setInterval(nextNumber, 20);
+    function initiateBall()
+    {
+        let ball = document.getElementById("ball")
+        ballPosition.x = parseInt(ball.style.left)
+        ballPosition.y = parseInt(ball.style.top)
+    }
+
+    function physicsProcess()
+    {
+        if (ballGrabbed)
+        {
+            ballPosition.x = mouseX - 25
+            ballPosition.y = mouseY - 25
+        }
+        else
+        {
+            lastBallPosition = ballPosition
+
+            ballPosition.x += ballVelocity.x
+            ballPosition.y += ballVelocity.y
+
+            // fallit ur fönstret
+            if (ballPosition.y > (floorHeight - 50))
+            {
+                ballPosition.y = (floorHeight - 50)
+                ballVelocity.y = -ballVelocity.y
+            }
+        }
+        ballVelocity.x = ballVelocity.x * frictionMultiplier
+        ballVelocity.y = ballVelocity.y * frictionMultiplier
+    }
+
+    function getVelocity()
+    {
+        ballVelocity.x = ballPosition.x - lastBallPosition.x
+        ballVelocity.y = ballPosition.y - lastBallPosition.y
+    }
+
+    function addBallGravity()
+    {
+        if (!ballGrabbed)
+        {
+            ballVelocity.y += gravity
+        }
+    }
+
+    function grabBall()
+    {
+        ballGrabbed = !ballGrabbed
+
+        if (!ballGrabbed)
+        {
+            getVelocity()
+        }
+    }
+
+    function checkForGoal()
+    {
+        if ((ballPosition.x + 25) > goalPosition.x && (ballPosition.x + 25) < (goalPosition.x + goalWidth) && (ballPosition.y + 25) > goalPosition.y && (ballPosition.y + 25) < (goalPosition.y + goalHeight))
+        {
+            score += 1
+            alert("You scored a goal!!!")
+
+            // resetta bollen
+            ballGrabbed = false
+            ballPosition = {x : 0, y : 0}
+        }
+    }
 </script>
 
 <section>
     <div class="Login">
-        <button on:click={()=>randomizeLetters()} style="background-color: white; color: black; margin-bottom: 100px; margin-top: opx"><h1>Register here</h1></button>
+        <button on:click={()=>randomizeLetters()} class="header"><h1>Register here</h1></button>
 
         <button on:click={()=>register()} class="registerButton">Register</button>
+
+        <img class="goalArea" style="width: {goalWidth}px; height: {goalHeight}px; top: {goalPosition.y}px; left: {goalPosition.x}px;" src="{goalImg}" alt="nope">
+        <div id="floor" style="top: {floorHeight}px;"></div>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div on:click={()=>grabBall()} id="ball" style="left: {ballPosition.x}px; top: {ballPosition.y}px;"></div>
 
         <div>
             <button on:click={()=>switchMode("username")} class:active= { writingUsername }>Username</button>
@@ -183,8 +326,8 @@
 
         <div style="margin-top: 20px;">
             <p>Is gud?</p>
-            <button on:click={()=>showNextLetter()} style="background-color: greenyellow; color: black;">No</button>
-            <button on:click={()=>addletter()} style="background-color: red; color: black;">Yes</button>
+            <button on:click={()=>showNextLetter()} class="no">No</button>
+            <button on:click={()=>addletter()} class="yes">Yes</button>
         </div>
 
         <div>
@@ -197,17 +340,42 @@
 
     <div class="ageBox">
         <h1>How old are you?</h1>
-        <h1 style="margin: 60px; border-width: 5px; border-color: black; padding: 30px;">{currentNumber}</h1>
+        <h1 class="number">{currentNumber}</h1>
 
         <div class="submitRoamingArea">
-            <button on:click={()=>submitAge()} class="submit" style="background-color: black; width: 140px;">Submit</button>
+            <button on:click={()=>submitAge()} class="submit">Submit</button>
         </div>
     </div>
 
-    <aside><button on:click={()=>resetNumber()} style="background-color: white; color: black; font-size: small;">Reset?</button></aside>
+    <aside><button on:click={()=>resetNumber()} class="resetButton">Reset?</button></aside>
 </section>
 
 <style>
+    .goalArea {
+        position: absolute;
+
+        color: blue;
+        background-color: blue;
+    }
+
+    #floor {
+        position: fixed;
+        width: 100vw;
+        height: 10px;
+
+        background-color: burlywood;
+    }
+
+    #ball {
+        position: fixed;
+        left: 60px; top: 60px;
+
+        height: 50px;
+        width: 50px;
+        border-radius: 25px;
+        background-color: red;
+    }
+
     h1{
         text-align: center;
         font-size: 100px;
@@ -236,6 +404,23 @@
         top: 20vh;
     }
 
+    .header {
+        background-color: white;
+        color: black;
+        margin-bottom: 100px;
+        margin-top: 0px
+    }
+
+    .yes {
+        background-color: red;
+        color: black;
+    }
+
+    .no {
+        background-color: greenyellow;
+        color: black;
+    }
+
     .Login{
         display: flex;
         flex-direction: column;
@@ -251,6 +436,13 @@
         margin: 10px;
         font-size: 30px;
         border-radius: 10px;
+    }
+
+    .number {
+        margin: 60px;
+        border-width: 5px;
+        border-color: black;
+        padding: 30px;
     }
 
     .active {
@@ -288,6 +480,8 @@
 
         animation: roam 3000ms ease-in-out;
         animation-iteration-count: infinite;
+        background-color: black;
+        width: 140px;
     }
 
     .submitRoamingArea {
@@ -311,4 +505,9 @@
                 margin-left: 0%; }
     }
 
+    .resetButton {
+        background-color: white;
+        color: black;
+        font-size: small;
+    }
 </style>
