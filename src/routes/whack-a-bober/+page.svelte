@@ -1,5 +1,6 @@
 <script>
     import { base } from "$app/paths";
+	import { popup } from "@skeletonlabs/skeleton";
     import { onMount } from "svelte";
 
     let keyboardImgSrc = base + "/keyboard.png"
@@ -69,19 +70,25 @@
 
     let hit = null
     let bober = null
+    let popupBoxWidth = null
 
-    console.log(hitMarkerOrigo.y + (hitMarkerPos.y * 2) + " " + hitMarkerOrigo.x + (hitMarkerPos.x * 2))
+    let popupList = []
+
+    //console.log(hitMarkerOrigo.y + (hitMarkerPos.y * 2) + " " + hitMarkerOrigo.x + (hitMarkerPos.x * 2))
 
     onMount(()=>{
         hit = document.getElementById("hitMarker");
 
         bober = document.getElementById("bober")
 
+        const popupBox = document.getElementById("popupBox");
+        popupBoxWidth = popupBox.offsetWidth;
+        console.log("Popup box width: " + popupBoxWidth);
+
         setInterval(countDown, 50)
         setInterval(showBober, 2000)
         setInterval(regenerateStamina, 20)
     });
-    
 
     function onKeyDown(key)
     {
@@ -111,11 +118,36 @@
         console.log("Beaver: " + boberPos.x, boberPos.y)
         console.log("Hit: " + hitMarkerPos.x, hitMarkerPos.y)
 
-        if (hitMarkerPos.x == boberPos.x && hitMarkerPos.y == boberPos.y && bober.style.display == "block")
+        if (hitMarkerPos.x == boberPos.x && hitMarkerPos.y == boberPos.y && bober.style.display == "block" && hit.style.display == "block")
         {
-            score += 1
+            addPoint()
             bober.style.display = "none"
         }
+        else if (hit.style.display == "block")
+        {
+            removePoint()
+        }
+    }
+
+    function randomX()
+    {
+        return Math.floor(Math.random() * popupBoxWidth)
+    }
+
+    function addPoint()
+    {
+        score += 1
+
+        popupList.push({color : "greenyellow", text : "+1 HIT", localX : randomX()})
+        popupList = popupList
+    }
+
+    function removePoint()
+    {
+        score -= 1
+
+        popupList.push({color : "red", text : "-1 MISS", localX : randomX()})
+        popupList = popupList
     }
 
     function hideHitMarker()
@@ -180,7 +212,7 @@
     <h2>Score: {score}</h2>
 
     <div id="staminaContainer">
-        <div id="staminaBar" style="height: {stamina * 2}px;"></div>
+        <div id="staminaBar" style="height: {stamina * 2}px;"><h3 style="rotate: 90deg; font-size: larger;">Stamina</h3></div>
     </div>
 
     <div style="width: {keyboardSize.x}px; height: {keyboardSize.y}px;">
@@ -189,6 +221,12 @@
         <img src="{boberImgSrc}" alt="BOBER" id="bober" style="top: {hitMarkerOrigo.y + (boberPos.y * 2) - 17}px; left: {hitMarkerOrigo.x + (boberPos.x * 2) - 20}px;">
 
         <img src="{hitMarkerImgSrc}" alt="HIT" id="hitMarker" style="top: {hitMarkerOrigo.y + (hitMarkerPos.y * 2)}px; left: {hitMarkerOrigo.x + (hitMarkerPos.x * 2)}px;">
+    </div>
+
+    <div id="popupBox">
+        {#each popupList as popup}
+            <h3 style="background-color: {popup.color}; left: {popup.localX}px;" id="popup">{popup.text}</h3>
+        {/each}
     </div>
 </main>
 
@@ -260,5 +298,28 @@
     #staminaBar {
         background-color: greenyellow;
         width: 100%;
+    }
+
+    #popupBox {
+        width: 80%;
+        height: 20px;
+        position: absolute;
+        justify-self: center;
+        height: 80px;
+    }
+
+    #popup {
+        position: absolute;
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        text-align: center;
+        padding-top: 17px;
+        animation: goUp 1000ms ease-out;
+    }
+
+    @keyframes goUp {
+            0% { top: 1000px; }
+            100% { top: -10px; }
     }
 </style>
