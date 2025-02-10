@@ -40,7 +40,7 @@
 
         initiateBall()
         setInterval(addBallGravity, 20);
-        setInterval(checkForGoal, 40)
+        setInterval(checkForGoal, 100);
         setInterval(physicsProcess, 20);
     })
 

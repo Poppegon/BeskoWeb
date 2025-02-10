@@ -1,4 +1,6 @@
 <script>
+	import { base } from "$app/paths";
+
 	let color = "#ff0043"
 </script>
 
@@ -10,8 +12,13 @@
 		<p>Här har jag samlat min uppgifter jag gjort i samband med webbutveckling i årskurs 2 på Maja Beskowgymnasiet!</p>
 		<div class="citat">
 			<h2 style="color: #ff0043;">Inspirerande citat för min webbutvecklingsresa:</h2>
-			<p>"Vafan håller du på med? Släpp min kebab för fan!"</p>
+			<p>“My precious”</p>
 		</div>
+	</div>
+
+	<div id="otherLinks">
+		<a href="{base}/ux-login/nextLetter">Dålig inloggningssida</a>
+		<a href="{base}/whack-a-bober">whack-a-bober</a>
 	</div>
 
 	<svg viewBox="0 0 150 140" xmlns="http://www.w3.org/2000/svg">
@@ -35,16 +42,36 @@
 		margin-top: 10px;
 		text-align: center;
 		font-size: 37px;
-		font-family:'';
+		font-family: '';
 		color: grey;
 		margin-bottom: 20px;
 	}
 
 	.citat {
 		transition: transform 300ms ease-in-out normal;
-		order:1
+		order:1;
+		text-align: center;
 	}
 
 	.citat:hover { transform: scale(1.3); }
+
+	a {
+		color: #ff0043;
+	}
+
+	#otherLinks {
+		position: absolute;
+		left: 80%;
+		width: 200px;
+		height: 100px;
+
+		border-width: 4px;
+		border-color: #00FFBC;
+
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: space-evenly;
+	}
 </style>
   
