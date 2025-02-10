@@ -78,7 +78,7 @@
         bober = document.getElementById("bober")
 
         setInterval(countDown, 50)
-        setInterval(showBober, 5000)
+        setInterval(showBober, 2000)
         setInterval(regenerateStamina, 20)
     });
     
