@@ -368,7 +368,7 @@ function getMouseY() {
     #ball {
         position: fixed;
         left: 60px; top: 60px;
-
+        cursor: grab;
         height: 50px;
         width: 50px;
         border-radius: 25px;

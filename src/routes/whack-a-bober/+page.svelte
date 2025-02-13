@@ -19,7 +19,14 @@
 
     let score = 0
     let time = 0
+    let timeMultiplier = 1
     let stamina = 100
+    let boerTime = 0
+
+    let records = {
+        highScore : 0,
+        lowScore : 0
+    }
 
     let keySize = {
         x : 43,
@@ -74,6 +81,9 @@
 
     let popupList = []
 
+    let hitSound = null
+    let missSound = null
+
     //console.log(hitMarkerOrigo.y + (hitMarkerPos.y * 2) + " " + hitMarkerOrigo.x + (hitMarkerPos.x * 2))
 
     onMount(()=>{
@@ -81,14 +91,50 @@
 
         bober = document.getElementById("bober")
 
+        hitSound = document.getElementById("hitSound")
+        missSound = document.getElementById("missSound")
+
         const popupBox = document.getElementById("popupBox");
         popupBoxWidth = popupBox.offsetWidth;
         console.log("Popup box width: " + popupBoxWidth);
 
         setInterval(countDown, 50)
-        setInterval(showBober, 2000)
         setInterval(regenerateStamina, 20)
     });
+
+    let showBoberInterval = null
+
+    $: {
+        clearInterval(showBoberInterval);
+        showBoberInterval = setInterval(showBober, 2000 * timeMultiplier);
+    }
+
+    function makeTwoDecimals(inputString) // återanvänder från pokemonprojektet
+    {
+        let countDown = 3
+        let result = ""
+
+        for (let char of inputString)
+        {
+            if (countDown < 3 && countDown > 0)
+            {
+                countDown -= 1
+            }
+
+            if (char === ".")
+            {
+                countDown = 2
+            }
+            result += char
+
+            if (countDown === 0)
+            {
+                return result
+            }
+        }
+
+        return result
+    }
 
     function onKeyDown(key)
     {
@@ -121,11 +167,15 @@
         if (hitMarkerPos.x == boberPos.x && hitMarkerPos.y == boberPos.y && bober.style.display == "block" && hit.style.display == "block")
         {
             addPoint()
+            //hitSound.currentTime = 0
+            //hitSound.play()
             bober.style.display = "none"
         }
         else if (hit.style.display == "block")
         {
             removePoint()
+            //missSound.currentTime = 0
+            //missSound.play()
         }
     }
 
@@ -134,20 +184,37 @@
         return Math.floor(Math.random() * popupBoxWidth)
     }
 
+    function checkScoreRecord()
+    {
+        if (score > records.highScore)
+        {
+            records.highScore = score
+        }
+        else if (score < records.lowScore)
+        {
+            records.lowScore = score
+        }
+    }
+
     function addPoint()
     {
-        score += 1
+        // less time => more points
+        score += 1/timeMultiplier
 
         popupList.push({color : "greenyellow", text : "+1 HIT", localX : randomX()})
         popupList = popupList
+
+        checkScoreRecord()
     }
 
     function removePoint()
     {
-        score -= 1
+        score -= 1/timeMultiplier
 
         popupList.push({color : "red", text : "-1 MISS", localX : randomX()})
         popupList = popupList
+
+        checkScoreRecord()
     }
 
     function hideHitMarker()
@@ -189,14 +256,18 @@
         let randomPos = randomKeyPos()
 
         //console.log(randomPos)
+        if (bober) bober.style.display = "none"
 
-        if (randomPos)
-        {
-            boberPos.x = randomPos.x
-            boberPos.y = randomPos.y
-        }
+        // Randomize Beaver behaviour
+        setTimeout(() => {
+            if (randomPos)
+            {
+                boberPos.x = randomPos.x
+                boberPos.y = randomPos.y
+            }
 
-        if (bober) bober.style.display = "block"
+            if (bober) bober.style.display = "block"
+        }, Math.floor(Math.random() * 1000));
     }
 
     function regenerateStamina()
@@ -207,9 +278,17 @@
 </script>
 
 <main>
+    <audio id="hitSound" src="{base}/bell.mp3"></audio>
+    <audio id="missSound"src="{base}/near-miss-swing-whoosh.mp3"></audio>
+
     <h1>Whack a Bober!</h1>
 
-    <h2>Score: {score}</h2>
+    <h2>Score: {makeTwoDecimals(String(score))}</h2>
+
+    <div id="records">
+        <h2>Highest Score: {makeTwoDecimals(String(records.highScore))}</h2>
+        <h2>Lowest Score: {makeTwoDecimals(String(records.lowScore))}</h2>
+    </div>
 
     <div id="staminaContainer">
         <div id="staminaBar" style="height: {stamina * 2}px;"><h3 style="rotate: 90deg; font-size: larger;">Stamina</h3></div>
@@ -228,11 +307,30 @@
             <h3 style="background-color: {popup.color}; left: {popup.localX}px;" id="popup">{popup.text}</h3>
         {/each}
     </div>
+
+    <div id="timeMultiplier" >
+        <label for="timeMultiplier">Time Multiplier: {timeMultiplier}</label>
+        <input type="range" min="0.1" max="5" step="0.1" bind:value={timeMultiplier}>
+    </div>
 </main>
 
 <svelte:window on:keydown|preventDefault={onKeyDown}/>
 
 <style>
+    #records {
+        position: absolute;
+        right: 100px;
+        top: 50px;
+        overflow: hidden;
+        width: 300px;
+    }
+
+    #timeMultiplier {
+        position: absolute;
+        right: 100px;
+        bottom: 100px;
+    }
+
     img {
         /* Även de förstorade bilderna ska vara krispiga hittade inte tillbaka till källan */
         image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
