@@ -89,7 +89,7 @@
 { :then pokemon }
 
 <div class="headerBox">
-    <a href="/search/{ (pokemon.response.id - 1) }">
+    <a href="{base}/search/{ (pokemon.response.id - 1) }">
     <h4>Previous: #{ (pokemon.response.id - 1) }</h4></a>
 
     <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 300px; cursor: pointer;">
@@ -97,7 +97,7 @@
         <h2 style="color: #D9D3D3"> #{ pokemon.response.id }</h2>
     </div>
 
-    <a href="/search/{ (pokemon.response.id + 1) }">
+    <a href="{base}/search/{ (pokemon.response.id + 1) }">
     <h4>Next: #{ pokemon.response.id + 1 }</h4></a>
 </div>
 
