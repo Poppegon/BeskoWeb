@@ -40,6 +40,8 @@
 		border-radius: 14px;
 		border-color: #ff0043;
 		background-color: white;
+		overflow: hidden;
+		height: 35px;
 	}
 </style>
 

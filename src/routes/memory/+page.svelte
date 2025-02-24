@@ -171,7 +171,7 @@
         <!-- svelte-ignore a11y-click-events-have-key-events -->
         <!-- svelte-ignore a11y-no-static-element-interactions -->
         <div class="card" class:flipped= { card.flipped } on:click={()=>flipCard(card)}>
-                <img class ="front" src="{ card.image }" alt="{ imagesAlt[card.id] }">
+                <img class="front" src="{ card.image }" alt="{ imagesAlt[card.id] }">
                 <img class="back" src="{ bg }" alt="hidden card">
         </div>
     { /each }
