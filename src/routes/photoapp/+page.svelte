@@ -33,8 +33,8 @@
         justify-content: center;
     }
     .image-wrapper {
-        transition:flex 150ms ease-in-out normal;
-        order:1
+        transition: flex 150ms ease-in-out normal;
+        order: 1;
     }
     .image-wrapper img{
         width: 100%;
