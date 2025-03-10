@@ -1,11 +1,13 @@
 <script>
-    let items_to_buy = [];
-    let items_bought = [];
+    let items_to_buy = [{name : "mjöl", price : 210, prio : 0}];
+    let items_bought = [{name : "mjölk", price : 34567, prio : 0}];
 
     let new_vara_name = "";
 
     function handleSubmit() {
-        let new_item = {name : new_vara_name, price : 0}
+        if (new_vara_name == "") {return}
+
+        let new_item = {name : new_vara_name, price : 0, prio : 0}
         new_item.price = new_item.name.length * 3
 
         items_to_buy.push(new_item)
@@ -30,6 +32,10 @@
         items_bought.splice(vara_index, 1)
         items_bought = items_bought
     }
+
+    $:items_to_buy.sort((a, b) => {
+        return b.prio - a.prio
+    })
 </script>
 
 <main>
@@ -42,7 +48,7 @@
 
                     <ol class="list">
                         { #each items_to_buy as vara,i }
-                            <li class="list_item">{ vara.name } | { vara.price } :-
+                            <li class="list_item" style="order: {vara.prio};">{ vara.name } | { vara.price } :-
 
                                 <form action="" on:submit|preventDefault={()=>buyItem(i)}>
                                     <input type="submit" id="buy_vara" value="[Köp]" class="smallbox">
@@ -50,6 +56,11 @@
 
                                 <form action="" on:submit|preventDefault={()=>removeUnboughtItem(i)}>
                                     <input type="submit" id="remove_vara" value="[Ta bort]" class="smallbox">
+                                </form>
+
+                                <form action="" on:submit|preventDefault={() => {}}>
+                                    <label for="prio">Prio:</label>
+                                    <input type="number" id="prio" bind:value={vara.prio} class="prio">
                                 </form>
                             </li>
                         { /each }
@@ -59,7 +70,7 @@
                 <section class="section">
                     <h2 class="Header">Köpta varor</h2>
 
-                    <ul class="list">
+                    <ol class="list">
                         { #each items_bought as vara,i }
                             <li class="list_item">{ vara.name }
 
@@ -68,7 +79,7 @@
                                 </form>
                             </li>
                         { /each }
-                    </ul>
+                    </ol>
                 </section>
             </div>
             <form action="" on:submit|preventDefault={handleSubmit}>
@@ -80,6 +91,15 @@
 </main>
 
 <style>
+    .prio {
+        height: 40px;
+        width: 60px;
+    }
+
+    input {
+        cursor: pointer;
+    }
+
     .container {
         justify-self: center;
         width: 60vw;
@@ -140,6 +160,14 @@
         border-bottom-width: 1px;
         border-color: red;
         border-radius: 5px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+
+    .list_item :first-child {
+        align-self: flex-start;
     }
 
     .smallbox {

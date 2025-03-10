@@ -59,7 +59,10 @@ export async function load({ params, fetch })
     let recentSearches = get(search_store);
     recentSearches = recentSearches ? JSON.parse(recentSearches) : [];
 
-    if (!recentSearches.includes(data.name))
+    let duplicate = false
+    for (let search of recentSearches) { if (search.name == data.name) { duplicate = true } }
+
+    if (!duplicate)
     {
         recentSearches.unshift(data);
 

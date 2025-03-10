@@ -33,11 +33,11 @@
     <h1>Pokedex</h1>
     <div class="navBar">
 
-        <form on:submit|preventDefault={()=> goto(base + '/search/'+search)}>
+        <form on:submit|preventDefault={()=> {loadRecentSearches() ;goto(base + '/search/'+search)}}>
             <input type="text" placeholder="Sök upp en annan pokemon" class="searchBar" bind:value={ search }/>
         </form>
 
-        <div class="button" on:click={()=> goto(base + '/search/'+search)}>
+        <div class="button" on:click={()=> {loadRecentSearches() ;goto(base + '/search/'+search)}}>
             <h1>Sök</h1>
         </div>
     </div>

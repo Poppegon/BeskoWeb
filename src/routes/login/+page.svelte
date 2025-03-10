@@ -72,7 +72,7 @@
     }
 
     .container {
-        height: 40%;
+        height: 400px;
         width: 35%;
         min-width: 300px;
         margin: auto;

@@ -177,7 +177,7 @@
 <div id="headerBar">
     <div id="backdrop"></div>
 
-    <h1><strong>Bröd och död</strong></h1>
+    <h1><strong>Bröd</strong></h1>
 
     <!-- svelte-ignore missing-declaration -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -191,12 +191,12 @@
                         <p style="width: 15%;">{product.price} kr</p>
 
                         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                        <p class="+" on:click={()=>removeProduct("subtract", i)}>X</p>
+                        <p class="+" on:click={()=>removeProduct("subtract", i)}>-</p>
 
                         <p style="bottom: 0px; width: 10%;">x{product.quantity}</p>
 
                         <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-                        <p class="+" on:click={()=>removeProduct("add", i)}>X</p>
+                        <p class="+" on:click={()=>removeProduct("add", i)}>+</p>
                     </div>
                 {/each}
                 <h2><strong>Total price: </strong>{totalPrice} kr</h2>
@@ -352,7 +352,12 @@
         border-radius: 5px;
 
         transition: all 0.5s ease, width 0.5s ease;
+    }
 
+    @media (max-width: 350px){
+        #cartBody{
+            width: 100%;
+        }
     }
 
     .cartWheel {
