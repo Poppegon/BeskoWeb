@@ -80,7 +80,7 @@
         align-items: space-between;
     }
 
-    div:nth-child(1) {
+    #gridBox:nth-child(1) {
         grid-column: 1 / 4;
     }
 
