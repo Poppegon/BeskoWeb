@@ -1,13 +1,19 @@
 <script>
+	import { onMount } from "svelte";
+
     let listLength = 7
     let list = Array(listLength)
     console.log(list)
 
     let showImage = false
 
-    setInterval(() => {
-        let boxes = document.getElementsByClassName("box")
-    }, 10);
+    onMount(() => {
+        setInterval(() => {
+            let boxes = document.getElementsByClassName("box")
+        }, 10);
+    })
+
+
 
     function loopThroughBoxes()
     {
