@@ -207,7 +207,6 @@
     }
 
     .card {
-        border-radius: 10px;
         border-width: 1px;
         border-color: black;
 
