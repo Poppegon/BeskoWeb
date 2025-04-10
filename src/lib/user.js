@@ -22,11 +22,11 @@ if (browser) {
         })
 
         chat_store.subscribe((value) => {
-                /* on changes to the users_store, update the localStorage in the browser. */
+
                 window?.localStorage.setItem('chats', value);
         })
         search_store.subscribe((value) => {
-                /* on changes to the users_store, update the localStorage in the browser. */
+
                 window?.sessionStorage.setItem('recentSearches', value);
         })
 }
